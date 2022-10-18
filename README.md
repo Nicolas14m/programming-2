@@ -1,6 +1,6 @@
 # programming-2
 
-This work is the final project of the subject "Web Interface Design" of the career "Information Technology Analyst" at ORT University, Montevideo, Uruguay.
+This work is the final project of the subject "Programming 2" of the career "Information Technology Analyst" at ORT University, Montevideo, Uruguay.
 
 Made in December 2021
 
