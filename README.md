@@ -1,8 +1,6 @@
-# programming-2
+# programming-2 - C# programming language - netcoreapp3.1
 
 This work is the final project of the subject "Programming 2" of the career "Information Technology Analyst" at ORT University, Montevideo, Uruguay.
-
-C# programming language - netcoreapp3.1
 
 Made in December 2021
 
