@@ -1,0 +1,352 @@
+﻿@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1 class="text-center mb-4">Registro usuario</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <form method="post" class=" col-md-7 col-lg-9  p-5 shadow" id="formularioRegistro">
+            <div class="row justify-content-center flex-column">
+               
+          <div class="row">
+              <div class="mb-3 item-formulario col-lg-6" >
+                <label for="nombre" class="form-label">Ingrese su Nombre:</label>
+                <input value="@ViewBag.Nombre" type="text" class="form-control" id="nombre" name="nombre">
+                <small class="form-text text-danger"></small>
+              </div>
+
+              <div class="mb-3 item-formulario col-lg-6" >
+                <label for="apellido" class="form-label">Ingrese su Apellido:</label>
+                <input value="@ViewBag.Apellido" type="text" class="form-control" id="apellido" name="apellido">
+                <small class="form-text text-danger"></small>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="mb-3 item-formulario col-lg-6" >
+                <label for="nombreUsuario" class="form-label">Ingrese su Usuario:</label>
+                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario">
+                <small class="form-text text-danger"></small>
+              </div>
+
+              <div class="mb-3 item-formulario col-lg-6" >
+                <label for="email" class="form-label">Ingrese su Email:</label>
+                <input type="text" class="form-control" id="email" name="email">
+                <small class="form-text text-danger"></small>
+              </div>
+          </div>
+
+           <div class="row">
+          <div class="mb-3 item-formulario col-lg-6">
+            <label for="password" class="form-label">Contraseña</label>
+            <input value="@ViewBag.Password" type="password" class="form-control" id="password" name="password">
+            <small class="form-text text-danger"></small>
+          </div>
+
+          <div class="mb-3 item-formulario col-lg-6">
+            <label for="passwordConfir" class="form-label">Confirme Contraseña</label>
+            <input value="@ViewBag.Password" type="password" class="form-control" id="passwordConfir" name="passwordConfir">
+            <small class="form-text text-danger"></small>
+          </div>
+          </div>
+
+          <div class="mb-3 item-formulario">
+            <label for="fechaNac" class="form-label">Fecha de Nacimiento</label>
+            <input value="@ViewBag.FechaNac" type="date" class="form-control" id="fechaNac" name="fechaNac">
+            <small class="form-text text-danger"></small>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Registrarme</button>
+           <p id="pMensaje"></p>
+          </div>
+
+          <p class="text-danger"> @ViewBag.ResultadoRegistro </p>
+         </form>
+</div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script>
+              
+        document.querySelector("#formularioRegistro").addEventListener('submit', validarFormularioRegistro);
+
+        function validarFormularioRegistro(e) {
+            e.preventDefault();
+
+            let nombreInput = document.querySelector("#nombre");
+
+            let apellidoInput = document.querySelector("#apellido");
+
+            let nombreUsuarioInput = document.querySelector("#nombreUsuario");
+
+            let emailInput = document.querySelector("#email");
+
+            let passwordInput = document.querySelector("#password");
+
+            let passwordConfirInput = document.querySelector("#passwordConfir");
+
+            let fechaNacInput = document.querySelector("#fechaNac");
+                  
+
+            // Creamos una funcion especifica para cada input, para asi mostrar en un <small> especifico y localizado donde esta el error, 
+            // ademas de pintar de rojo el input especifico que lo generó
+            // Es la mejor opcion para la experiencia de usuario, ademas de que nos aseguramos por completo que los datos pasan de manera correcta.
+
+            
+
+            validarNombreReg(nombreInput);
+            validarApellidoReg(apellidoInput);
+            validarNombreUsuarioReg(nombreUsuarioInput);
+            validarEmailReg(emailInput);
+            validarPasswordReg(passwordInput);
+            comprarPasswordReg(passwordInput, passwordConfirInput);
+            validarFechaNacReg(fechaNacInput);
+
+
+           if(validarNombreReg(nombreInput) && validarApellidoReg(apellidoInput) && validarNombreUsuarioReg(nombreUsuarioInput) && validarEmailReg(emailInput) && 
+            validarPasswordReg(passwordInput) &&  validarPasswordReg(passwordInput) && comprarPasswordReg(passwordInput, passwordConfirInput) && validarFechaNacReg(fechaNacInput)){
+               this.submit();
+           }
+
+        }
+
+
+
+      
+
+        // NOMBRE: Se permite cualquier nombre mayor a 2 caracteres, no debe contener números ni caracteres especiales.
+        function validarNombreReg(nombreInput) {
+          let validado = false;
+
+          if (isNaN(nombreInput.value) && nombreInput.value.trim().length >= 2) {
+            let bandera = true;
+            let i = 0;
+            while (bandera && i < nombreInput.value.trim().length) {
+              if (
+                nombreInput.value.charCodeAt(i) >= 33 &&
+                nombreInput.value.charCodeAt(i) <= 64
+              ) {
+                bandera = false;
+                mostrarErrorRegistro(
+                  nombreInput,
+                  'El nombre no debe contener números! Tampoco simbolos (!, #, $, &)'
+                );
+              } else {
+                mostrarExitoRegistro(nombreInput);
+                validado = true;
+              }
+              i++;
+            }
+          } else {
+            mostrarErrorRegistro(nombreInput, 'Mínimo 2 caracteres. Solo letras.');
+          }
+
+          return validado;
+        }
+
+        // APELLIDO: Se permite cualquier apellido mayor a 2 caracteres, no debe contener números ni caracteres especiales.
+        function validarApellidoReg(apellidoInput) {
+          let validado = false;
+
+          if (isNaN(apellidoInput.value) && apellidoInput.value.trim().length >= 2) {
+            let bandera = true;
+            let i = 0;
+            while (bandera && i < apellidoInput.value.trim().length) {
+              if (
+                apellidoInput.value.charCodeAt(i) >= 33 &&
+                apellidoInput.value.charCodeAt(i) <= 64
+              ) {
+                bandera = false;
+                mostrarErrorRegistro(
+                  apellidoInput,
+                  'El apellido no debe contener números! Tampoco simbolos (!, #, $, &)'
+                );
+              } else {
+                mostrarExitoRegistro(apellidoInput);
+                validado = true;
+              }
+              i++;
+            }
+          } else {
+            mostrarErrorRegistro(apellidoInput, 'Mínimo 2 caracteres. Solo letras.');
+          }
+
+          return validado;
+        }
+
+        // USUARIO:  Mayor o igual a 4 caracteres, no debe existir previamente pero eso se valida desde del back
+
+        function validarNombreUsuarioReg(nombreUsuarioInput){
+
+            let validado = false;
+
+            if(nombreUsuarioInput.value.trim().length >= 4){
+
+                mostrarExitoRegistro(nombreUsuarioInput)
+                validado = true;
+            } else {
+                mostrarErrorRegistro(nombreUsuarioInput, "El nombre de usuario debe tener más de 3 caracteres")
+            }
+
+            return validado;
+        }
+
+        // EMAIL: debe ser un email válido 
+        function validarEmailReg(emailInput) {
+
+            let validado = false;
+
+            const reg = /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+            if(reg.test(String(emailInput.value).toLowerCase())){
+                 mostrarExitoRegistro(emailInput);
+                validado = true;
+
+            } else {
+                 mostrarErrorRegistro(
+                  emailInput,
+                  'Ingrese un email válido'
+                );
+            }
+
+            return validado;
+            }
+
+        // PASSWORD: Largo mínimo de 6 caracteres y contendrá al menos una mayúscula, una minúscula y un dígito. 
+        function validarPasswordReg(passwordInput) {
+          let hayMayuscula = false;
+          let hayMinuscula = false;
+          let hayNumero = false;
+          let validado = false;
+
+          if (passwordInput.value.trim().length >= 6) {
+            for (let i = 0; i < passwordInput.value.trim().length; i++) {
+              // Chequea el carácter por en busca de mayusculas
+              if (
+                passwordInput.value.charCodeAt(i) >= 65 &&
+                passwordInput.value.charCodeAt(i) <= 90
+              ) {
+                hayMayuscula = true;
+              }
+              // Chequea el carácter por en busca de minúsculas
+              if (
+                passwordInput.value.charCodeAt(i) >= 97 &&
+                passwordInput.value.charCodeAt(i) <= 122
+              ) {
+                hayMinuscula = true;
+              }
+              // Chequea el carácter por en busca de números
+              if (
+                passwordInput.value.charCodeAt(i) >= 48 &&
+                passwordInput.value.charCodeAt(i) <= 57
+              ) {
+                hayNumero = true;
+              }
+            }
+          }
+
+          if (
+            hayMayuscula &&
+            hayMinuscula &&
+            hayNumero &&
+            !tieneEspacioEntreMedio(passwordInput.value.trim())
+          ) {
+            validado = true;
+            mostrarExitoRegistro(passwordInput);
+          } else {
+            mostrarErrorRegistro(
+              passwordInput,
+              'Mínimo 6 caracteres, al menos una mayuscula, una minúscula y un número. Sin espacios entremedio.'
+            );
+          }
+          return validado;
+        }
+
+        // CONFIRM PASSWORD: Deben coincidir las contraseñas
+        function comprarPasswordReg(input1, input2) {
+          let validado = false;
+          if (
+            input1.value.trim() === input2.value.trim() &&
+            input2.value.trim().length >= 6
+          ) {
+            mostrarExitoRegistro(input2);
+            validado = true;
+          } else {
+            mostrarErrorRegistro(input2, 'Las contraseñas deben coincidir!');
+          }
+          return validado;
+        }
+
+        // FECHA NACIMIENTO: No debe estar vacía y ser mayor a 12 años
+        function validarFechaNacReg(fechaNacInput){
+
+            let validado = false;
+
+            let fechaActual = new Date();
+            let fechaNac = new Date (fechaNacInput.value);
+
+            if(fechaNacInput.value != "" && fechaActual >= fechaNac && fechaActual.getYear() - fechaNac.getYear() > 12){
+                mostrarExitoRegistro(fechaNacInput);
+                validado = true;
+                
+            } else {
+                mostrarErrorRegistro(fechaNacInput, "Elija una fecha válida. Debes tener más de 12 años.")
+            }
+                
+            return validado;
+        }
+
+
+
+
+     //*** Exito y Error ***
+
+     // Exito, elimina el mensaje de error y pinta de verde el borde
+    function mostrarExitoRegistro(input) {
+     
+      input.classList.remove('border-danger', 'border-1');
+      input.classList.add('border-success', 'border-2');
+
+      // Localizamos el small de ese input para borrar el mensaje de error
+      let elementoPadre = input.parentElement;
+      let small = elementoPadre.querySelector('small');
+      small.innerHTML = '';
+    }
+
+   // Error, agrega un mensaje de error especifico en el small y pinta de rojo el input
+    function mostrarErrorRegistro(input, mensaje) {
+      
+      input.classList.remove('border-success', 'border-2');
+      input.classList.add('border-danger', 'border-1');
+
+      // Localizamos el small de ese input
+      let elementoPadre = input.parentElement;
+      let small = elementoPadre.querySelector('small');
+      small.innerHTML = mensaje;
+    }
+
+
+    // Validación si hay espacios entre medio
+
+       function tieneEspacioEntreMedio(string) {
+      let tieneEspacio = false;
+
+      string = string.trim();
+      let i = 0;
+
+      while (!tieneEspacio && i < string.length) {
+        if (string.charAt(i) === ' ') {
+          tieneEspacio = true;
+        }
+        i++;
+      }
+      return tieneEspacio;
+    }
+
+    </script>
+    }

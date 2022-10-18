@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Cancelar Compra";
+}
+
+<h1 class="text-center mb-4" >Cancelar Compra</h1>
+
+
+@if (@ViewBag.PuedeCancelar == true &&  @ViewBag.CompraACancelar.Activa == true){
+
+    <p>Estas seguro que deseas cancelar <b> @ViewBag.CompraACancelar.Actividad.Nombre </b> para el <b> @ViewBag.CompraACancelar.Actividad.Fecha</b>? Una vez cancelado no podras hacer nada.</p>
+
+<form method="post" id="fomrmularioCancelarCompra">
+    <input value="@ViewBag.CompraACancelar.Id" type="text" class="d-none" id="idCompra" name="idCompraACancelar">
+    <input class="btn btn-primary text-white" type="submit" value="Si, cancelar mi compra">
+</form>
+
+} else if(@ViewBag.PuedeCancelar == false && @ViewBag.CompraACancelar.Activa == true) {
+
+    <p>Ya no puedes cancelar esta compra, el evento <b> @ViewBag.CompraACancelar.Actividad.Nombre </b> es en menos de 24 horas!</p>
+}
+
+
+
+<p class="text-success"> @ViewBag.Resultado </p>
+@Html.ActionLink("Volver a mis compras", "MisCompras", "Compra")

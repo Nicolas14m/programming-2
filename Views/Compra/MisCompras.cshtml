@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Obligatorio_2_NB_NT_V2.Models.Compra>
+
+@{
+    ViewData["Title"] = "Mis Compras";
+}
+
+<h1 class="text-center mb-4">Mis Compras</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+
+            <th>
+                Nombre
+            </th>
+
+            <th>
+                Categoria
+            </th>
+
+            <th>
+               Cantidad de Entradas
+            </th>
+            <th>
+                Fecha de Compra
+            </th>
+
+             <th>
+                Fecha de la Actividad
+            </th>
+
+            <th>
+                Precio total
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            if(item.Activa == true){
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actividad.Nombre)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actividad.Categoria.Nombre)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantidadEntradas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaCompra)
+                </td>
+
+                <td>
+                   @Html.DisplayFor(modelItem => item.Actividad.Fecha)
+                </td>
+               
+                <td>
+                   $@Html.DisplayFor(modelItem => item.PrecioTotal)
+                </td>
+
+
+
+                
+                <td>
+                    @Html.ActionLink("Cancelar Compra", "Cancelar", new {  idCompra= item.Id  })
+                    
+                </td>
+            </tr>
+
+            }
+
+        }
+    </tbody>
+</table>

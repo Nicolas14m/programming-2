@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Obligatorio_2_NB_NT_V2.Models.Compra>
+
+@{
+    ViewData["Title"] = "Compras más Caras";
+}
+
+<h1 class="text-center mb-4">Compras de mayor valor</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+
+            <th>
+                Actividad
+            </th>
+
+            <th>
+                Cantidad de Entradas
+            </th>
+            <th>
+                Fecha de Compra
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activa)
+            </th>
+            <th>
+                Precio Total
+            </th>
+
+            <th>
+                Usuario
+            </th>
+           
+
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Actividad.Nombre)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadEntradas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCompra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activa)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.PrecioTotal)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.NombreUsuario)
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<h1 class="text-center mb-4">Login </h1>
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <form method="post" class=" col-sm-6 col-md-5 col-lg-4  p-5 shadow" id="formularioLogin">
+            <div class="row justify-content-center flex-column">
+          <div class="mb-3" >
+            <label for="nombreUsuario" class="form-label">Ingrese su usuario:</label>
+            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" >
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+           <p class="text-danger" id="pMensaje"></p>
+          <p class="text-danger">@ViewBag.Resultado</p>
+          </div>
+         </form>
+         
+    </div>
+ </div>
+ 
+
+@section Scripts{
+    <script>
+
+        document.querySelector("#formularioLogin").addEventListener('submit', validarLogin);
+
+        function validarLogin(e) {
+            e.preventDefault();
+
+            let nombreUsuario = document.querySelector("#nombreUsuario").value;
+                 
+            let password = document.querySelector("#password").value
+              
+
+            if  (nombreUsuario != "" && password != "" ) {
+                this.submit();
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Debe rellenar ambos campos!";
+            }
+
+        }
+
+    </script>
+    }

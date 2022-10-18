@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Compra";
+}
+
+<h1 class="text-center mb-4" mb-4">Comprar</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <form method="post" class="col-md-7  p-5 shadow" id="formularioLogin">
+            <div class="row justify-content-center flex-column">
+
+                <div class="mb-3 d-none">
+                    <label for="idActividad" class="form-label h2">Id:</label>
+                    <input type="text" value="@ViewBag.Actividad.Id" class="form-control" id="idActividad" name="idActividad" readonly disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nombreActividad" class="form-label h2">Actividad:</label>
+                    <input type="text" value="@ViewBag.Actividad.Nombre" class="form-control" id="nombreActividad" name="nombreActividad" readonly disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="categoriaActividad" class="form-label h2">Categoria:</label>
+                    <input type="text" class="form-control" value="@ViewBag.Actividad.Categoria.Nombre" id="categoriaActividad" name="categoriaActividad" readonly disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="costoActividad" class="form-label h2">Costo Entrada:</label>
+                    <input type="text" value="@ViewBag.Actividad.PrecioFinal" class="form-control" id="costoActividad" name="costoActividad" readonly disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cantidadEntradas" class="form-label h2">Cantidad:</label>
+                    <input value="1" type="number" class="form-control" id="cantidadEntradas" name="cantidadEntradas" min="1" max="99">
+                </div>
+
+                <h2 id="totalMensaje">Total:</h2>
+
+                <button type="submit" class="btn btn-primary">Comprar</button>
+
+               
+
+                <p class="text-success py-4 " id="pMensaje"> @ViewBag.ResultadoCompra</p>
+
+                @Html.ActionLink("Ver mis compras", "MisCompras", "Compra") @Html.ActionLink("Ver más actividades", "Index", "Actividad")
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+<script>
+
+    let valorEntrada = document.getElementById('costoActividad').value;
+    valorEntrada = valorEntrada.replace(/,/g, '.'); // Sustituimos la coma por el punto sino JS nos da NaN al operar o mostrar
+    valorEntrada = Number(valorEntrada);
+
+    document.getElementById('totalMensaje').innerHTML = `Total: $ ${valorEntrada}`
+
+    document.getElementById('cantidadEntradas').addEventListener("input",() => {
+        
+        let cantidadEntradas = Number(document.getElementById('cantidadEntradas').value);
+         let total = Number(valorEntrada * cantidadEntradas);
+
+          document.getElementById('totalMensaje').innerHTML = `Total: $ ${total}`
+     })
+
+</script>
+
+}

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Obligatorio_2_NB_NT_V2.Models.Actividad>
+
+@{
+    ViewData["Title"] = "Actividad Por Fecha";
+}
+
+<h1 class="text-center mb-4" >Actividad Por Fecha Y Categoría</h1>
+
+
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <form method="post" class="col-4  p-5 shadow" id="formularioFechas">
+
+            <div class="row justify-content-center flex-column">
+                <div class="mb-3">
+                    <label for="fecha1" class="form-label">Ingrese fecha 1</label>
+                    <input type="date" class="form-control" id="fecha1" name="fecha1" value="@ViewBag.Fecha1">
+                </div>
+                <div class="mb-3">
+                    <label for="fecha2" class="form-label">Ingrese fecha 2</label>
+                    <input type="date" class="form-control" id="fecha2" name="fecha2" value="@ViewBag.Fecha2">
+                </div>
+
+
+
+                <div class="mb-3">
+                    <label for="categoria">Elija una categoría para filtrar:</label>
+                    <select name="nombreCategoria" class="custom-select" id="categorias">
+                        <option disabled selected value= "-1">Seleccione una categoría:</option>
+
+
+                        @foreach (Categoria c in ViewBag.categorias)
+                        {
+                            <option value="@c.Nombre">@c.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <p class="text-danger my-2" id="pMensaje"> @ViewBag.Resultado</p>
+
+                @*<p class="text-danger">@ViewBag.Resultado</p>*@
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                Edad Mínima
+            </th>
+            <th>
+                Cantidad Me Gusta
+            </th>
+            <th>
+                Precio Final
+            </th>
+            <th>
+                Categoría
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EdadMinima)
+                </td>
+                <td>
+                    <span class="badge bg-primary text-white">@Html.DisplayFor(modelItem => item.CantidadMeGusta)</span>
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.PrecioFinal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+                </td>
+            </tr>
+        }
+
+        
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script>
+
+        document.querySelector("#formularioFechas").addEventListener('submit', validarFechas);
+
+        function validarFechas(e) {
+            e.preventDefault();
+
+            let fecha1 = document.querySelector("#fecha1").value;
+                 
+            let fecha2 = document.querySelector("#fecha2").value;
+
+            let categoria = document.querySelector("#categorias").value;
+              
+
+            if  (fecha1 != "" && fecha2 != "" && categoria != "-1" ) {
+
+
+                this.submit();
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Debe completar todos los campos";
+            }
+
+        }
+
+    </script>
+    }

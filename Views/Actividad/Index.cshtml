@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<Obligatorio_2_NB_NT_V2.Models.Actividad>
+
+@{
+    ViewData["Title"] = "Lista de Actividades";
+}
+
+<h1 class="text-center mb-4">Lista de Actividades</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+                
+            </th>
+            <th>
+                Lugar
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                Edad Minima
+            </th>
+            <th>
+                Cantidad de Me gusta
+            </th>
+            <th>
+                Precio Total ($)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                    
+                </td>
+                <td>
+                     @Html.DisplayFor(modelItem => item.Lugar.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EdadMinima)
+                </td>
+                <td>
+                    
+
+                    <span class="badge bg-primary text-white">@Html.DisplayFor(modelItem => item.CantidadMeGusta)</span>
+
+                    @if (Context.Session.GetString("logueadoRol") == "cliente")
+                    {
+                      <a class="btn btn-outline-primary" href="/Actividad/AgregarMeGusta?idActividad=@item.Id">Me Gusta</a>
+                    }
+
+                </td>
+                <td>
+                   $@Html.DisplayFor(modelItem =>  item.PrecioFinal)
+                </td>
+
+                <td>
+
+                    @if (Context.Session.GetString("logueadoRol") == "cliente")
+                    {
+                        @Html.ActionLink("Comprar", "Comprar", "Compra", new { idActividad = item.Id }) 
+
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

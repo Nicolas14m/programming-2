@@ -1,0 +1,113 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Obligatorio_2_NB_NT_V2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img class="img-fluid" src="~/img/logo-small.jpg"   alt="logo"></a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse " id="navbarNavDropdown">
+                    <ul class="navbar-nav flex-grow-1 justify-content-around">
+
+                        @*Home*@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                        </li>
+                        @*Lista de Actividades*@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Actividad" asp-action="Index">Lista de Actividades</a>
+                        </li>
+
+                        @if (Context.Session.GetString("logueadoUsuario") == null)
+                        {
+
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Registro">Registro</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white bg-primary rounded" asp-area="" asp-controller="Usuario" asp-action="Login">Login</a>
+                            </li>
+
+
+                        }
+
+
+                        @if (Context.Session.GetString("logueadoUsuario") != null)
+                        {
+
+                            @if (Context.Session.GetString("logueadoRol") == "cliente")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Compra" asp-action="MisCompras">Mis Compras</a>
+                                </li>
+                            }
+
+                            @if (Context.Session.GetString("logueadoRol") == "operador")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Compra" asp-action="ComprasEntreFechas">Compras por Fecha</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="VerClientes">Clientes</a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Estadísticas</a>
+                                    <div class="dropdown-menu">
+
+
+                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Actividad" asp-action="ActividadPorLugar">Actividades Por Lugar</a>
+                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Actividad" asp-action="ActividadPorFechas">Actividades Por Fecha</a>
+                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Compra" asp-action="Estadisticas">Compras Más Caras</a>
+                                    </div>
+                                </li>
+
+                            }
+
+
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white bg-primary rounded" asp-area="" asp-controller="Usuario" asp-action="Logout">Cerrar Sesión</a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+        
+
+
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+           Programación 2 - Obligatorio 2 - Nicolás Bañales - Nicolás Mattos  &copy; 2021
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

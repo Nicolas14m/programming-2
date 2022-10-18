@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Obligatorio_2_NB_NT_V2.Models.Actividad>
+
+@{
+    ViewData["Title"] = "Actividad Por Lugar";
+}
+
+
+<h1 class="text-center mb-4" >Actividades por Lugar</h1>
+
+<div class="container">
+<form method="post" id="formularioLugar">
+    <label for="lugares">Elija un lugar por nombre</label>
+    <select name="idLugar" class="custom-select" id="lugares">
+        <option disabled selected value="-1">Seleccione un lugar de la lista</option>
+
+
+        @foreach (Lugar l in ViewBag.lugares)
+        {
+            <option value="@l.Id">@l.Nombre</option>
+
+        }
+    </select>
+    <div class="d-flex justify-content-end">
+    <input class="btn btn-primary text-white text-right my-3" type="submit" value="Buscar">
+
+    </div>
+    <p id="pMensaje" class="text-danger my-2">@ViewBag.Resultado</p>
+</form>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+               Edad Mínima
+            </th>
+            <th>
+               Cantidad Me Gusta
+            </th>
+            <th>
+                Precio Final
+            </th>
+            <th>
+                Lugar
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EdadMinima)
+                </td>
+                <td>
+                    <span class="badge bg-primary text-white">@Html.DisplayFor(modelItem => item.CantidadMeGusta)</span>
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.PrecioFinal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lugar.Nombre)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script>
+
+        document.querySelector("#formularioLugar").addEventListener('submit', validarLugar);
+
+        function validarLugar(e) {
+            e.preventDefault();
+
+            let lugar = document.querySelector("#lugares").value;
+
+            if  (lugar != "-1" ) {
+
+                this.submit();
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Seleccione un lugar";
+            }
+
+        }
+
+    </script>
+    }

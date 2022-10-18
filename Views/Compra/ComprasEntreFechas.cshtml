@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Obligatorio_2_NB_NT_V2.Models.Compra>
+
+@{
+    ViewData["Title"] = "Compras entre Fechas";
+}
+
+
+
+
+<h1 class="text-center mb-4">Compras entre dos Fechas</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <form method="post" class="col-4  p-5 shadow" id="formularioFechas">
+            
+            <div class="row justify-content-center flex-column">
+          <div class="mb-3" >
+            <label for="fecha1" class="form-label">Ingrese fecha 1</label>
+            <input type="date" class="form-control" id="fecha1" name="fecha1" value="@ViewBag.Fecha1" >
+          </div>
+          <div class="mb-3">
+            <label for="fecha2" class="form-label">Ingrese fecha 2</label>
+            <input type="date" class="form-control" id="fecha2" name="fecha2" value="@ViewBag.Fecha2" >
+          </div>
+          <button type="submit" class="btn btn-primary">Buscar</button>
+           <p class="text-danger my-2" id="pMensaje"></p>
+
+          <p class="text-danger">@ViewBag.Resultado</p>
+          </div>
+         </form>
+    </div>
+ </div>
+
+
+ <h1 class="text-center my-4">Lista de Compras</h1>
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id Compra
+            </th>
+            <th>
+                Cantidad de Entradas
+            </th>
+            <th>
+                Fecha de Compra
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activa)
+            </th>
+            <th>
+                Precio total
+            </th>
+
+            <th>
+                Usuario
+            </th>
+
+            <th>
+                Actividad
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadEntradas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCompra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activa)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.PrecioTotal)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.NombreUsuario)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Actividad.Nombre)
+            </td>
+
+
+        </tr>
+}
+    </tbody>
+</table>
+
+ <h3 class="text-right">Total Recaudado: $ @ViewBag.TotalRecaudado </h3>
+
+
+@section Scripts{
+    <script>
+
+        document.querySelector("#formularioFechas").addEventListener('submit', validarFechas);
+
+        function validarFechas(e) {
+            e.preventDefault();
+
+            let fecha1 = document.querySelector("#fecha1").value;
+                 
+            let fecha2 = document.querySelector("#fecha2").value
+              
+
+            if  (fecha1 != "" && fecha2 != "" ) {
+                this.submit();
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Debe seleccionar 2 fechas";
+            }
+
+        }
+
+    </script>
+    }
